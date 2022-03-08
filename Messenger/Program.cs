@@ -12,36 +12,51 @@ public static class Program
         }
 
         String option = args[0];
+        String arg1 = args[1];
         switch (option)
         {
             case "keyGen":
+                KeyGen(arg1);
                 break;
             case "sendKey":
+                SendKey(arg1);
                 break;
             case "getKey":
+                GetKey(arg1);
                 break;
             case "sendMsg":
+                String arg2 = args[2];
+                SendMsg(arg1, arg2);
                 break;
             case "getMsg":
+                GetMsg(arg1);
                 break;
         }
 
     }
-    
 
-    public static BigInteger ModInverse(BigInteger  a,  BigInteger  n) 
-    { 
-        BigInteger  i  =  n,  v  =  0,  d  =  1; 
-        while  (a>0)  { 
-            BigInteger  t  =  i/a,  x  =  a; 
-            a  =  i  %  x; 
-            i  =  x; 
-            x  =  d; 
-            d  =  v  - t*x; 
-            v  =  x; 
-        } 
-        v  %=  n; 
-        if  (v<0)  v  =  (v+n)%n; 
-        return  v; 
+    private static void KeyGen(String keysize)
+    {
+        
+    }
+
+    private static void SendKey(String email)
+    {
+        
+    }
+
+    private static void GetKey(String email)
+    {
+        
+    }
+
+    private static void SendMsg(String email, String plaintext)
+    {
+        
+    }
+
+    private static void GetMsg(String email)
+    {
+        
     }
 }
