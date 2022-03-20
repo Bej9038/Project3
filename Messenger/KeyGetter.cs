@@ -1,4 +1,6 @@
-﻿namespace Messenger;
+﻿using System.Text;
+
+namespace Messenger;
 
 public class KeyGetter
 {
@@ -16,8 +18,11 @@ public class KeyGetter
         {
             HttpResponseMessage response = client.GetAsync("http://kayrun.cs.rit.edu:5000/Key/" + email).Result;
             response.EnsureSuccessStatusCode();
-            string responseBody = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(responseBody);
+            string responseBody = response.Content.ReadAsStringAsync().Result;
+            string path = "./" + email + ".key"; 
+            FileStream fs = File.Create(path);
+            fs.Write(new UTF8Encoding(true).GetBytes(responseBody));
+            fs.Close();
         }
         catch (Exception e)
         {
