@@ -23,7 +23,8 @@ public static class Program
                 SendKey(arg1);
                 break;
             case "getKey":
-                GetKey(arg1);
+                KeyGetter kg = new KeyGetter(arg1);
+                kg.GetKey();
                 break;
             case "sendMsg":
                 if (len != 3)
@@ -47,23 +48,6 @@ public static class Program
 
     private static void SendKey(String email)
     {
-        
-    }
-
-    private static async void GetKey(String email)
-    {
-        HttpClient client = new HttpClient();
-        try
-        {
-            HttpResponseMessage response = await client.GetAsync("http://kayrun.cs.rit.edu:5000/Key/" + email);
-            Console.WriteLine(response.GetType());
-            string responseBody = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(responseBody);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
         
     }
 
