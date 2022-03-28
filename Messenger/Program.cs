@@ -1,4 +1,8 @@
 ﻿using System.Numerics;
+using System.Text;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+
 namespace Messenger;
 
 public static class Program
@@ -17,14 +21,16 @@ public static class Program
         switch (option)
         {
             case "keyGen":
-                KeyGen(arg1);
+                KeyGenerator kgen = new KeyGenerator(arg1);
+                kgen.KeyGen();
                 break;
             case "sendKey":
-                SendKey(arg1);
+                KeySender ksend = new KeySender(arg1);
+                ksend.SendKey();
                 break;
             case "getKey":
-                KeyGetter kg = new KeyGetter(arg1);
-                kg.GetKey();
+                KeyGetter kgtr = new KeyGetter(arg1);
+                kgtr.GetKey();
                 break;
             case "sendMsg":
                 if (len != 3)
@@ -33,47 +39,28 @@ public static class Program
                     Environment.Exit(1);
                 }
                 String arg2 = args[2];
-                SendMsg(arg1, arg2);
+                MessageSender msend = new MessageSender(arg1, arg2);
+                msend.SendMsg();
                 break;
             case "getMsg":
-                GetMsg(arg1);
+                MessageGetter mget = new MessageGetter(arg1);
+                mget.GetMsg();
                 break;
         }
-    }
-
-    private static void KeyGen(String keysize)
-    {
         
-    }
+        // string path = "./jsb@cs.rit.edu.key";
+        // string keyObj = File.ReadAllText(path);
+        // var key = JsonConvert.DeserializeObject<Key>(keyObj);
+        // byte[] decodedKey = Convert.FromBase64String(key.Keyphrase);
+        //
+        // var e = BitConverter.ToInt32(decodedKey.Take(4).Reverse().ToArray());
+        // var E = new BigInteger(decodedKey.Skip(4).Take(e).ToArray());
+        // var n = BitConverter.ToInt32(decodedKey.Skip(4 + e).Take(4).Reverse().ToArray());
+        // var N = new BigInteger(decodedKey.Skip(8 + e).Take(n).ToArray());
+        // Console.WriteLine(e);
+        // Console.WriteLine(E);
+        // Console.WriteLine(n);
+        // Console.WriteLine(N);
 
-    private static void SendKey(String email)
-    {
-        
-    }
-
-    private static void SendMsg(String email, String plaintext)
-    {
-        
-    }
-
-    private static void GetMsg(String email)
-    {
-        
-    }
-    
-    public static  BigInteger ModInverse(BigInteger  a,  BigInteger  n) 
-    { 
-        BigInteger  i  =  n ,  v  =  0,  d  =  1; 
-        while  (a > 0)  { 
-            BigInteger  t  =  i / a,  x  =  a; 
-            a  =  i  %  x; 
-            i  =  x; 
-            x  =  d; 
-            d  =  v  - t * x; 
-            v  =  x; 
-        } 
-        v  %=  n; 
-        if  (v < 0)  v  =  ( v + n ) % n; 
-        return  v; 
     }
 }
