@@ -11,16 +11,7 @@ namespace PrimeGen;
 public class Generator
 {
     private const uint LoopIterations =  4294967295; // number of loop iterations
-    private static Object _myLock = new Object(); // lock object
 
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="bitCount"> Integer bit length </param>
-    public Generator()
-    {
-    }
-    
     /// <summary>
     /// Runs the generator.
     /// </summary>
@@ -30,6 +21,7 @@ public class Generator
         int byteCount = BitsToBytes(bitCount);
         
         Parallel.For(0, LoopIterations, (i, state) => {
+            
             BigInteger x = BigIntegerExtensions.GenerateBigIntInRange(0, -1, byteCount);
             
             if (x == 2 || x == 3)

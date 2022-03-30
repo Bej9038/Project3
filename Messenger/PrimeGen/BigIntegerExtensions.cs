@@ -65,7 +65,7 @@ public static class BigIntegerExtensions
     /// <returns> The pseudorandom BigInteger </returns>
     public static BigInteger GenerateBigIntInRange(BigInteger lowerBounds, BigInteger upperBounds, int byteCount)
     {
-        byte[] bytes = { };
+        byte[] bytes = {};
         BigInteger x = new BigInteger(bytes);
         if (upperBounds == -1) // no upper bounds
         {
