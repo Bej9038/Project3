@@ -71,6 +71,13 @@ public class KeyGenerator
     public string AssemblePublicKeyphrase(BigInteger N, BigInteger E)
     {
         string keyphrase = "";
+        byte[] eBytes = E.ToByteArray();
+        byte[] nBytes = N.ToByteArray();
+        int e = E.GetByteCount();
+        int n = N.GetByteCount();
+
+        keyphrase += e;
+        
         return keyphrase;
     }
 
