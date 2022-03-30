@@ -65,8 +65,21 @@ public class KeyGenerator
         BigInteger E = generator.RunGenerator(16);
         BigInteger D = ModInverse(E, r);
         
+        
     }
-    
+
+    public string AssemblePublicKeyphrase(BigInteger N, BigInteger E)
+    {
+        string keyphrase = "";
+        return keyphrase;
+    }
+
+    public string AssemblePrivateKeyphrase(BigInteger N, BigInteger D)
+    {
+        string keyphrase = "";
+        return keyphrase;
+    }
+
     public BigInteger ModInverse(BigInteger  a,  BigInteger  n) 
     { 
         BigInteger  i  =  n ,  v  =  0,  d  =  1; 
