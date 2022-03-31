@@ -48,18 +48,18 @@ public static class Program
                 break;
         }
         
-        string path = "./jsb@cs.rit.edu.key";
-        string keyObj = File.ReadAllText(path);
-        var key = JsonConvert.DeserializeObject<Key>(keyObj);
-        byte[] decodedKey = Convert.FromBase64String(key.Keyphrase);
-        
-        var e = BitConverter.ToInt32(decodedKey.Take(4).Reverse().ToArray());
-        var E = new BigInteger(decodedKey.Skip(4).Take(e).ToArray());
-        var n = BitConverter.ToInt32(decodedKey.Skip(4 + e).Take(4).Reverse().ToArray());
-        var N = new BigInteger(decodedKey.Skip(8 + e).Take(n).ToArray());
-        Console.WriteLine(e);
-        Console.WriteLine(E);
-        Console.WriteLine(n);
-        Console.WriteLine(N);
+        // string path = "./jsb@cs.rit.edu.key";
+        // string keyObj = File.ReadAllText(path);
+        // var key = JsonConvert.DeserializeObject<Key>(keyObj);
+        // byte[] decodedKey = Convert.FromBase64String(key.Keyphrase);
+        //
+        // var e = BitConverter.ToInt32(decodedKey.Take(4).Reverse().ToArray());
+        // var E = new BigInteger(decodedKey.Skip(4).Take(e).ToArray());
+        // var n = BitConverter.ToInt32(decodedKey.Skip(4 + e).Take(4).Reverse().ToArray());
+        // var N = new BigInteger(decodedKey.Skip(8 + e).Take(n).ToArray());
+        // Console.WriteLine(e);
+        // Console.WriteLine(E);
+        // Console.WriteLine(n);
+        // Console.WriteLine(N);
     }
 }

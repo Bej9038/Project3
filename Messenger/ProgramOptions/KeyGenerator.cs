@@ -64,8 +64,9 @@ public class KeyGenerator
                                             BigInteger.Subtract(q, 1));
         BigInteger E = generator.RunGenerator(16);
         BigInteger D = ModInverse(E, r);
-        
-        
+
+        Console.WriteLine(AssemblePublicKeyphrase(N, E));
+
     }
 
     public string AssemblePublicKeyphrase(BigInteger N, BigInteger E)
@@ -73,11 +74,11 @@ public class KeyGenerator
         string keyphrase = "";
         byte[] eBytes = E.ToByteArray();
         byte[] nBytes = N.ToByteArray();
-        int e = E.GetByteCount();
-        int n = N.GetByteCount();
+        string e = ReverseSting(AddKeysizePadding(E.GetByteCount().ToString()));
+        string n = ReverseSting(AddKeysizePadding(N.GetByteCount().ToString()));
 
         keyphrase += e;
-        
+
         return keyphrase;
     }
 
@@ -102,6 +103,22 @@ public class KeyGenerator
         if  (v < 0)  v  =  ( v + n ) % n; 
         return  v; 
     }
-    
-    
+
+    public string ReverseSting(string s)
+    {
+        char[] charArray = s.ToCharArray();
+        Array.Reverse( charArray );
+        return new string( charArray );
+    }
+
+    private string AddKeysizePadding(string num)
+    {
+        while (num.Length < 4)
+        {
+            num += "0";
+        }
+
+        return num;
+    }
+
 }
