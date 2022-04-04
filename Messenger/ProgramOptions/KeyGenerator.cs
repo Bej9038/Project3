@@ -52,16 +52,13 @@ public class KeyGenerator
     {
         string keyphrase = "";
         string e = ReverseSting(AddKeysizePadding(E.GetByteCount().ToString()));
-        keyphrase += e;
-        
-        byte[] Ebytes = E.ToByteArray();
-        string b64 = Convert.ToBase64String(Ebytes);
-        
-        keyphrase += Convert.ToBase64String(E.ToByteArray());
-        
         string n = ReverseSting(AddKeysizePadding(N.GetByteCount().ToString()));
-        // keyphrase += n;
-        // keyphrase += Convert.ToBase64String(N.ToByteArray());
+        keyphrase += e;
+        // byte[] Ebytes = E.ToByteArray();
+        // string b64 = Convert.ToBase64String(Ebytes);
+        keyphrase += Convert.ToBase64String(E.ToByteArray());
+        keyphrase += n;
+        keyphrase += Convert.ToBase64String(N.ToByteArray());
 
         return keyphrase;
     }
@@ -69,6 +66,15 @@ public class KeyGenerator
     public string AssemblePrivateKeyphrase(BigInteger N, BigInteger D)
     {
         string keyphrase = "";
+        string d = ReverseSting(AddKeysizePadding(D.GetByteCount().ToString()));
+        string n = ReverseSting(AddKeysizePadding(N.GetByteCount().ToString()));
+        keyphrase += d;
+        // byte[] Ebytes = E.ToByteArray();
+        // string b64 = Convert.ToBase64String(Ebytes);
+        keyphrase += Convert.ToBase64String(D.ToByteArray());
+        keyphrase += n;
+        keyphrase += Convert.ToBase64String(N.ToByteArray());
+
         return keyphrase;
     }
 
