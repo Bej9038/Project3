@@ -18,11 +18,10 @@ public class Generator
     public BigInteger RunGenerator(int bitCount)
     {
         BigInteger prime = new BigInteger();
-        int byteCount = BitsToBytes(bitCount);
-        
+
         Parallel.For(0, LoopIterations, (i, state) => {
             
-            BigInteger x = BigIntegerExtensions.GenerateBigIntInRange(0, -1, byteCount);
+            BigInteger x = BigIntegerExtensions.GenerateBigIntInRange(0, -1, bitCount);
             
             if (x == 2 || x == 3)
             {
@@ -45,23 +44,32 @@ public class Generator
             }
         });
 
-        return prime;
-    }
+        // Boolean primeFound = false;
+        // while (!primeFound)
+        // {
+        //     BigInteger x = BigIntegerExtensions.GenerateBigIntInRange(0, -1, bitCount);
+        //     
+        //     if (x == 2 || x == 3)
+        //     {
+        //         prime = x;
+        //         primeFound = true;
+        //     }
+        //     else 
+        //     { 
+        //         if (BigInteger.Compare(x, 3) > 0 && 
+        //             BigInteger.Remainder(x, 2) != 0 &&
+        //             BigInteger.Remainder(x, 3) != 0 &&
+        //             BigInteger.Remainder(x, 5) != 0) 
+        //         { 
+        //             if (x.IsProbablyPrime())
+        //             {
+        //                 prime = x;
+        //                 primeFound = true;
+        //             }
+        //         } 
+        //     }
+        // }
 
-    /// <summary>
-    /// Converts a value in bits to the equivalent value in bytes.
-    /// </summary>
-    /// <param name="bits"> The number of bits </param>
-    /// <returns> The number of bytes </returns>
-    public int BitsToBytes(int bits)
-    {
-        if (bits % 8 == 0)
-        {
-            return bits / 8;   
-        }
-        else // arg checks to make sure bits is divisible by 8 so this is redundant but just in case
-        {
-            return bits / 8 + 1;
-        }
+        return prime;
     }
 }

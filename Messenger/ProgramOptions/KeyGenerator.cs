@@ -6,6 +6,7 @@ namespace Messenger;
 public class KeyGenerator
 {
     private int keysize;
+    private const int ESize = 16;
     public KeyGenerator(string keysize)
     {
         try
@@ -36,33 +37,11 @@ public class KeyGenerator
         
         Generator generator = new Generator();
         BigInteger p = generator.RunGenerator(pSize);
-        byte[] pBytes = p.ToByteArray();
-        for(int i = 0; i < pBytes.Length; i++)
-        {
-            int value = pBytes[i];
-            if (value % 2 == 0)
-            {
-                pBytes[i] = (byte) (value + 1);
-            }
-        }
-        p = new BigInteger(pBytes);
-
         BigInteger q = generator.RunGenerator(qSize);
-        byte[] qBytes = q.ToByteArray();
-        for(int i = 0; i < qBytes.Length; i++)
-        {
-            int value = qBytes[i];
-            if (value % 2 == 0)
-            {
-                qBytes[i] = (byte) (value + 1);
-            }
-        }
-        q = new BigInteger(qBytes);
-
         BigInteger N = BigInteger.Multiply(p, q);
         BigInteger r = BigInteger.Multiply(BigInteger.Subtract(p, 1), 
                                             BigInteger.Subtract(q, 1));
-        BigInteger E = generator.RunGenerator(16);
+        BigInteger E = generator.RunGenerator(ESize);
         BigInteger D = ModInverse(E, r);
 
         Console.WriteLine(AssemblePublicKeyphrase(N, E));
@@ -72,12 +51,17 @@ public class KeyGenerator
     public string AssemblePublicKeyphrase(BigInteger N, BigInteger E)
     {
         string keyphrase = "";
-        byte[] eBytes = E.ToByteArray();
-        byte[] nBytes = N.ToByteArray();
         string e = ReverseSting(AddKeysizePadding(E.GetByteCount().ToString()));
-        string n = ReverseSting(AddKeysizePadding(N.GetByteCount().ToString()));
-
         keyphrase += e;
+        
+        byte[] Ebytes = E.ToByteArray();
+        string b64 = Convert.ToBase64String(Ebytes);
+        
+        keyphrase += Convert.ToBase64String(E.ToByteArray());
+        
+        string n = ReverseSting(AddKeysizePadding(N.GetByteCount().ToString()));
+        // keyphrase += n;
+        // keyphrase += Convert.ToBase64String(N.ToByteArray());
 
         return keyphrase;
     }

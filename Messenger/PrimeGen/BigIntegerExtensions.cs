@@ -63,25 +63,49 @@ public static class BigIntegerExtensions
     /// <param name="upperBounds"> The upper bounds of the BigInteger </param>
     /// <param name="byteCount"> The byte count </param>
     /// <returns> The pseudorandom BigInteger </returns>
-    public static BigInteger GenerateBigIntInRange(BigInteger lowerBounds, BigInteger upperBounds, int byteCount)
+    public static BigInteger GenerateBigIntInRange(BigInteger lowerBounds, BigInteger upperBounds, int bitCount)
     {
+        int byteCount = BitsToBytes(bitCount);
         byte[] bytes = {};
         BigInteger x = new BigInteger(bytes);
+        
         if (upperBounds == -1) // no upper bounds
         {
-            bytes = RandomNumberGenerator.GetBytes(byteCount);
-            x = new BigInteger(bytes);
+            // while (x.GetBitLength() != bitCount)
+            // {
+                bytes = RandomNumberGenerator.GetBytes(byteCount);
+                // byte temp = 255;
+                // bytes[bytes.Length - 1] = temp;
+                x = new BigInteger(bytes);   
+            // }
         }
         else
         {
-            while(x < lowerBounds || x > upperBounds)
+            while (x < lowerBounds || x > upperBounds)
             {
                 bytes = RandomNumberGenerator.GetBytes(byteCount);
-                x = new BigInteger(bytes);
-            }    
+                x = new BigInteger(bytes); 
+            }
         }
 
         return x;
+    }
+    
+    /// <summary>
+    /// Converts a value in bits to the equivalent value in bytes.
+    /// </summary>
+    /// <param name="bits"> The number of bits </param>
+    /// <returns> The number of bytes </returns>
+    public static int BitsToBytes(int bits)
+    {
+        if (bits % 8 == 0)
+        {
+            return bits / 8;   
+        }
+        else // arg checks to make sure bits is divisible by 8 so this is redundant but just in case
+        {
+            return bits / 8 + 1;
+        }
     }
 }
 
