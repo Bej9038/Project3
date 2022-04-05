@@ -11,7 +11,7 @@ public class KeyGetter
         this.email = email;
     }
 
-    public async void GetKey()
+    public void GetKey()
     {
         HttpClient client = new HttpClient();
         try

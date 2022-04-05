@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Collections;
+using System.Numerics;
 using PrimeGen;
 
 namespace Messenger;
@@ -44,12 +45,33 @@ public class KeyGenerator
         BigInteger E = generator.RunGenerator(ESize);
         BigInteger D = ModInverse(E, r);
 
-        Console.WriteLine(AssemblePublicKeyphrase(N, E));
+        PublicKey publicKey = new PublicKey(AssemblePublicKeyphrase(N, E));
+        ArrayList emails = new ArrayList();
+        // emails.Add("bej9038@rit.edu");
+        PrivateKey privateKey = new PrivateKey(emails, AssemblePrivateKeyphrase(N, D));
+        SaveKeys(publicKey, privateKey);
 
+    }
+
+    public void SaveKeys(PublicKey publicKey, PrivateKey privateKey)
+    {
+        string publicPath = "./public.key";
+        string privatePath = "./private.key";
+        FileStream fspub = File.Create(publicPath);
+        FileStream fspriv = File.Create(privatePath);
+        
+        //write JSON objects to files?
+        
+        fspub.Write();
+        fspriv.Write();
+        fs.Close();
     }
 
     public string AssemblePublicKeyphrase(BigInteger N, BigInteger E)
     {
+        //CONSTRUCT BYTE ARRAY FIRST THE ENCODE!!!
+        
+        
         string keyphrase = "";
         string e = ReverseSting(AddKeysizePadding(E.GetByteCount().ToString()));
         string n = ReverseSting(AddKeysizePadding(N.GetByteCount().ToString()));
