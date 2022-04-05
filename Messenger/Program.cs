@@ -50,7 +50,7 @@ public static class Program
         
         // string path = "./jsb@cs.rit.edu.key";
         // string keyObj = File.ReadAllText(path);
-        // var key = JsonConvert.DeserializeObject<Key>(keyObj);
+        // var key = JsonConvert.DeserializeObject<PublicKey>(keyObj);
         // byte[] decodedKey = Convert.FromBase64String(key.Keyphrase);
         //
         // var e = BitConverter.ToInt32(decodedKey.Take(4).Reverse().ToArray());

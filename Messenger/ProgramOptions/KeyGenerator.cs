@@ -72,31 +72,34 @@ public class KeyGenerator
 
     public string AssemblePublicKeyphrase(BigInteger N, BigInteger E)
     {
-        //CONSTRUCT BYTE ARRAY FIRST THE ENCODE!!!
+        byte[] e = BitConverter.GetBytes(E.GetByteCount()).Reverse().ToArray();
+        byte[] Ebytes = E.ToByteArray();
+        byte[] n = BitConverter.GetBytes(N.GetByteCount()).Reverse().ToArray();
+        byte[] Nbytes = N.ToByteArray();
+        byte[] keyphrase = new byte[e.Length + Ebytes.Length + n.Length + Nbytes.Length];
         
-        
-        string keyphrase = "";
-        string e = ReverseSting(AddKeysizePadding(E.GetByteCount().ToString()));
-        string n = ReverseSting(AddKeysizePadding(N.GetByteCount().ToString()));
-        keyphrase += e;
-        keyphrase += Convert.ToBase64String(E.ToByteArray());
-        keyphrase += n;
-        keyphrase += Convert.ToBase64String(N.ToByteArray());
+        Array.Copy(e, 0, keyphrase, 0, e.Length);
+        Array.Copy(Ebytes, 0,  keyphrase, e.Length, Ebytes.Length);
+        Array.Copy(n, 0, keyphrase, e.Length + Ebytes.Length, n.Length);
+        Array.Copy(Nbytes, 0, keyphrase, e.Length + Ebytes.Length + n.Length, Nbytes.Length);
 
-        return keyphrase;
+        return Convert.ToBase64String(keyphrase);
     }
 
     public string AssemblePrivateKeyphrase(BigInteger N, BigInteger D)
     {
-        string keyphrase = "";
-        string d = ReverseSting(AddKeysizePadding(D.GetByteCount().ToString()));
-        string n = ReverseSting(AddKeysizePadding(N.GetByteCount().ToString()));
-        keyphrase += d;
-        keyphrase += Convert.ToBase64String(D.ToByteArray());
-        keyphrase += n;
-        keyphrase += Convert.ToBase64String(N.ToByteArray());
+        byte[] d = BitConverter.GetBytes(D.GetByteCount()).Reverse().ToArray();
+        byte[] Dbytes = D.ToByteArray();
+        byte[] n = BitConverter.GetBytes(N.GetByteCount()).Reverse().ToArray();
+        byte[] Nbytes = N.ToByteArray();
+        byte[] keyphrase = new byte[d.Length + Dbytes.Length + n.Length + Nbytes.Length];
+        
+        Array.Copy(d, 0, keyphrase, 0, d.Length);
+        Array.Copy(Dbytes, 0,  keyphrase, d.Length, Dbytes.Length);
+        Array.Copy(n, 0, keyphrase, d.Length + Dbytes.Length, n.Length);
+        Array.Copy(Nbytes, 0, keyphrase, d.Length + Dbytes.Length + n.Length, Nbytes.Length);
 
-        return keyphrase;
+        return Convert.ToBase64String(keyphrase);
     }
 
     public BigInteger ModInverse(BigInteger  a,  BigInteger  n) 
