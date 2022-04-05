@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Numerics;
+using System.Text;
+using Newtonsoft.Json;
 using PrimeGen;
 
 namespace Messenger;
@@ -8,6 +10,8 @@ public class KeyGenerator
 {
     private int keysize;
     private const int ESize = 16;
+    private const string PublicPath = "./public.key";
+        private const string PrivatePath = "./private.key";
     public KeyGenerator(string keysize)
     {
         try
@@ -55,16 +59,15 @@ public class KeyGenerator
 
     public void SaveKeys(PublicKey publicKey, PrivateKey privateKey)
     {
-        string publicPath = "./public.key";
-        string privatePath = "./private.key";
-        FileStream fspub = File.Create(publicPath);
-        FileStream fspriv = File.Create(privatePath);
+        FileStream fspub = File.Create(PublicPath);
+        FileStream fspriv = File.Create(PrivatePath);
+        string pubJson = JsonConvert.SerializeObject(publicKey);
+        string privJson = JsonConvert.SerializeObject(privateKey);
         
-        //write JSON objects to files?
-        
-        fspub.Write();
-        fspriv.Write();
-        fs.Close();
+        fspub.Write(new UTF8Encoding(true).GetBytes(pubJson));
+        fspriv.Write(new UTF8Encoding(true).GetBytes(privJson));
+        fspub.Close();
+        fspriv.Close();
     }
 
     public string AssemblePublicKeyphrase(BigInteger N, BigInteger E)
@@ -76,8 +79,6 @@ public class KeyGenerator
         string e = ReverseSting(AddKeysizePadding(E.GetByteCount().ToString()));
         string n = ReverseSting(AddKeysizePadding(N.GetByteCount().ToString()));
         keyphrase += e;
-        // byte[] Ebytes = E.ToByteArray();
-        // string b64 = Convert.ToBase64String(Ebytes);
         keyphrase += Convert.ToBase64String(E.ToByteArray());
         keyphrase += n;
         keyphrase += Convert.ToBase64String(N.ToByteArray());
@@ -91,8 +92,6 @@ public class KeyGenerator
         string d = ReverseSting(AddKeysizePadding(D.GetByteCount().ToString()));
         string n = ReverseSting(AddKeysizePadding(N.GetByteCount().ToString()));
         keyphrase += d;
-        // byte[] Ebytes = E.ToByteArray();
-        // string b64 = Convert.ToBase64String(Ebytes);
         keyphrase += Convert.ToBase64String(D.ToByteArray());
         keyphrase += n;
         keyphrase += Convert.ToBase64String(N.ToByteArray());
