@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿
 
 namespace Messenger;
 
 public class PublicKey
 {
+    //left the warnings to match the writeup JSON format
     private string email; 
     private string key;
     public PublicKey(string key)
@@ -27,6 +28,7 @@ public class PublicKey
 
 public class PrivateKey
 {
+    //left the warnings to match the writeup JSON format
     private List<string> emails;
     private string key;
     

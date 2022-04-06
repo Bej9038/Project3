@@ -1,5 +1,5 @@
 ﻿using System.Numerics;
-namespace PrimeGen;
+namespace Messenger.PrimeGen;
 
 
 /// <summary>

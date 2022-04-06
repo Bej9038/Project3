@@ -2,8 +2,9 @@
 
 public class Message
 {
-    private string email;
-    private string content;
+    //left the warnings to match the writeup JSON format
+    private string email; 
+    private string content; 
 
     public Message(string email, string content)
     {

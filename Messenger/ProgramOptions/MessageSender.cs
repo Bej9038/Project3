@@ -45,9 +45,9 @@ public class MessageSender
 
     }
     
-    public BigInteger EncryptMessage(BigInteger plaintextInt, BigInteger E, BigInteger N)
+    private BigInteger EncryptMessage(BigInteger plaintextInt, BigInteger rsaE, BigInteger rsaN)
     {
-        return BigInteger.ModPow(plaintextInt, E, N);
+        return BigInteger.ModPow(plaintextInt, rsaE, rsaN);
     }
     
     public static PublicKey LoadPublicKey(string path)
@@ -56,21 +56,21 @@ public class MessageSender
         var pubKey = JsonConvert.DeserializeObject<PublicKey>(publicKeystring);
         return pubKey;
     }
-    public static List<BigInteger> ExtractKeyValues(PublicKey pk)
+    private static List<BigInteger> ExtractKeyValues(PublicKey pk)
     {
         List<BigInteger> list = new List<BigInteger>();
         
         byte[] decodedKey = Convert.FromBase64String(pk.Key);
         
         int e = BitConverter.ToInt32(decodedKey.Take(4).Reverse().ToArray());
-        BigInteger E = new BigInteger(decodedKey.Skip(4).Take(e).ToArray());
+        BigInteger rsaE = new BigInteger(decodedKey.Skip(4).Take(e).ToArray());
         int n = BitConverter.ToInt32(decodedKey.Skip(4 + e).Take(4).Reverse().ToArray());
-        BigInteger N = new BigInteger(decodedKey.Skip(8 + e).Take(n).ToArray());
+        BigInteger rsaN = new BigInteger(decodedKey.Skip(8 + e).Take(n).ToArray());
 
         list.Add(e);
-        list.Add(E);
+        list.Add(rsaE);
         list.Add(n);
-        list.Add(N);
+        list.Add(rsaN);
         return list;
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 using System.Security.Cryptography;
-namespace PrimeGen;
+namespace Messenger.PrimeGen;
 
 /// <summary>
 /// Title: BigIntegerExtensions
@@ -61,7 +61,7 @@ public static class BigIntegerExtensions
     /// </summary>
     /// <param name="lowerBounds"> The lower bounds of the BigInteger </param>
     /// <param name="upperBounds"> The upper bounds of the BigInteger </param>
-    /// <param name="byteCount"> The byte count </param>
+    /// <param name="bitCount"> The bit count </param>
     /// <returns> The pseudorandom BigInteger </returns>
     public static BigInteger GenerateBigIntInRange(BigInteger lowerBounds, BigInteger upperBounds, int bitCount)
     {
@@ -96,7 +96,7 @@ public static class BigIntegerExtensions
     /// </summary>
     /// <param name="bits"> The number of bits </param>
     /// <returns> The number of bytes </returns>
-    public static int BitsToBytes(int bits)
+    private static int BitsToBytes(int bits)
     {
         if (bits % 8 == 0)
         {

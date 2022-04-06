@@ -6,11 +6,9 @@ namespace Messenger.ProgramOptions;
 public class MessageGetter
 {
     private string email;
-    private string path;
     public MessageGetter(string email)
     {
         this.email = email;
-        this.path = "./" + email + ".key"; 
     }
 
     public void GetMsg()
@@ -26,10 +24,13 @@ public class MessageGetter
             string responseBody = response.Content.ReadAsStringAsync().Result;
             var message = JsonConvert.DeserializeObject<Message>(responseBody);
 
-            byte[] content = Convert.FromBase64String(message.Content);
-            BigInteger cipertextInt = new BigInteger(content);
-            BigInteger plaintextInt = DecryptMessage(cipertextInt, keyValues[1], keyValues[3]);
-            Console.WriteLine(Convert.ToBase64String(plaintextInt.ToByteArray()));
+            if (message != null)
+            {
+                byte[] content = Convert.FromBase64String(message.Content);
+                BigInteger cipertextInt = new BigInteger(content);
+                BigInteger plaintextInt = DecryptMessage(cipertextInt, keyValues[1], keyValues[3]);
+                Console.WriteLine(Convert.ToBase64String(plaintextInt.ToByteArray()));   
+            }
         }
         catch (Exception e)
         {
@@ -44,26 +45,26 @@ public class MessageGetter
         return privKey;
     }
     
-    public BigInteger DecryptMessage(BigInteger ciphertextInt, BigInteger D, BigInteger N)
+    private BigInteger DecryptMessage(BigInteger ciphertextInt, BigInteger rsaD, BigInteger rsaN)
     {
-        return BigInteger.ModPow(ciphertextInt, D, N);
+        return BigInteger.ModPow(ciphertextInt, rsaD, rsaN);
     }
     
-    public List<BigInteger> ExtractKeyValues(PrivateKey pk)
+    private List<BigInteger> ExtractKeyValues(PrivateKey pk)
     {
         List<BigInteger> list = new List<BigInteger>();
         
         byte[] decodedKey = Convert.FromBase64String(pk.Key);
         
         int d = BitConverter.ToInt32(decodedKey.Take(4).Reverse().ToArray());
-        BigInteger D = new BigInteger(decodedKey.Skip(4).Take(d).ToArray());
+        BigInteger rsaD = new BigInteger(decodedKey.Skip(4).Take(d).ToArray());
         int n = BitConverter.ToInt32(decodedKey.Skip(4 + d).Take(4).Reverse().ToArray());
-        BigInteger N = new BigInteger(decodedKey.Skip(8 + d).Take(n).ToArray());
+        BigInteger rsaN = new BigInteger(decodedKey.Skip(8 + d).Take(n).ToArray());
 
         list.Add(d);
-        list.Add(D);
+        list.Add(rsaD);
         list.Add(n);
-        list.Add(N);
+        list.Add(rsaN);
         return list;
     }
 }
