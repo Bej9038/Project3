@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Numerics;
-using System.Text;
-using System.Text.Json.Serialization;
-using Newtonsoft.Json;
+﻿using Messenger.ProgramOptions;
 
 namespace Messenger;
 
@@ -10,6 +6,7 @@ public static class Program
 {
     public const string ServerEmail = "jsb@cs.rit.edu";
     public const string MyEmail = "bej9038@rit.edu";
+
     public static void Main(string[] args)
     {
         int len = args.Length;
@@ -41,6 +38,7 @@ public static class Program
                     Console.WriteLine("Usage: sendMsg <email> <plaintext>");
                     Environment.Exit(1);
                 }
+
                 String arg2 = args[2];
                 MessageSender msend = new MessageSender(arg1, arg2);
                 msend.SendMsg();
@@ -50,29 +48,5 @@ public static class Program
                 mget.GetMsg();
                 break;
         }
-    }
-
-    public static PublicKey LoadPublicKey(string path)
-    {
-        string publicKeystring = File.ReadAllText(path);
-        var pubKey = JsonConvert.DeserializeObject<PublicKey>(publicKeystring);
-        return pubKey;
-    }
-    public static List<BigInteger> ExtractKeyValues(PublicKey pk)
-    {
-        List<BigInteger> list = new List<BigInteger>();
-        
-        byte[] decodedKey = Convert.FromBase64String(pk.Key);
-        
-        int e = BitConverter.ToInt32(decodedKey.Take(4).Reverse().ToArray());
-        BigInteger E = new BigInteger(decodedKey.Skip(4).Take(e).ToArray());
-        int n = BitConverter.ToInt32(decodedKey.Skip(4 + e).Take(4).Reverse().ToArray());
-        BigInteger N = new BigInteger(decodedKey.Skip(8 + e).Take(n).ToArray());
-
-        list.Add(e);
-        list.Add(E);
-        list.Add(n);
-        list.Add(N);
-        return list;
     }
 }
