@@ -16,7 +16,7 @@ public class MessageGetter
     public void GetMsg()
     {
         HttpClient client = new HttpClient();
-        PrivateKey pk = LoadPrivateKey("private.key");
+        PrivateKey pk = LoadPrivateKey(Program.PrivateKeyPath);
         List<BigInteger> keyValues = ExtractKeyValues(pk);
         
         try

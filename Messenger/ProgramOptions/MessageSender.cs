@@ -34,7 +34,7 @@ public class MessageSender
         HttpClient client = new HttpClient();
         try
         {
-            HttpResponseMessage response = client.PutAsync("http://kayrun.cs.rit.edu:5000/Message/" + Program.ServerEmail,
+            HttpResponseMessage response = client.PutAsync("http://kayrun.cs.rit.edu:5000/Message/" + email,
                     new StringContent(message, Encoding.UTF8, "application/json")).Result;
             response.EnsureSuccessStatusCode();
         }
