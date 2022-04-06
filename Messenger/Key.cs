@@ -4,7 +4,7 @@ namespace Messenger;
 
 public class PublicKey
 {
-    private string? email;
+    private string? email; 
     private string key;
     public PublicKey(string key)
     {
@@ -26,16 +26,16 @@ public class PublicKey
 
 public class PrivateKey
 {
-    private ArrayList emails;
+    private List<string> emails;
     private string key;
     
-    public PrivateKey(ArrayList emails, string key)
+    public PrivateKey(List<string> emails, string key)
     {
         this.emails = emails;
         this.key = key;
     }
     
-    public ArrayList Emails
+    public List<string> Emails
     {
         get => emails;
         set => emails = value ?? throw new ArgumentNullException(nameof(value));

@@ -1,4 +1,6 @@
-﻿using Messenger.ProgramOptions;
+﻿using System.Text;
+using Messenger.ProgramOptions;
+using Newtonsoft.Json;
 
 namespace Messenger;
 
@@ -6,6 +8,8 @@ public static class Program
 {
     public const string ServerEmail = "jsb@cs.rit.edu";
     public const string MyEmail = "bej9038@rit.edu";
+    public const string PublicKeyPath = "./public.key";
+    public const string PrivateKeyPath = "./private.key";
 
     public static void Main(string[] args)
     {
@@ -48,5 +52,21 @@ public static class Program
                 mget.GetMsg();
                 break;
         }
+    }
+    
+    public static void SavePublicKey(PublicKey publicKey)
+    {
+        FileStream fspub = File.Create(PublicKeyPath);
+        string pubJson = JsonConvert.SerializeObject(publicKey);
+        fspub.Write(new UTF8Encoding(true).GetBytes(pubJson));
+        fspub.Close();
+    }
+    
+    public static void SavePrivateKey(PrivateKey privateKey)
+    {
+        FileStream fspriv = File.Create(PrivateKeyPath);
+        string privJson = JsonConvert.SerializeObject(privateKey);
+        fspriv.Write(new UTF8Encoding(true).GetBytes(privJson));
+        fspriv.Close();
     }
 }

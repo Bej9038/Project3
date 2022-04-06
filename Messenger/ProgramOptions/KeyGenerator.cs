@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Numerics;
-using System.Text;
-using Newtonsoft.Json;
+﻿using System.Numerics;
 using PrimeGen;
 
 namespace Messenger.ProgramOptions;
@@ -11,9 +8,7 @@ public class KeyGenerator
     private int keysize;
     private const int ESize = 16;
     private const double KeysizePercent = .25;
-    private const string PublicPath = "./public.key";
-    private const string PrivatePath = "./private.key";
-    
+
     public KeyGenerator(string keysize)
     {
         try
@@ -42,23 +37,12 @@ public class KeyGenerator
         BigInteger rsaD = ModInverse(rsaE, r);
 
         PublicKey publicKey = new PublicKey(AssemblePublicKeyphrase(rsaN, rsaE));
-        ArrayList emails = new ArrayList();
+        List<string> emails = new List<string>();
         PrivateKey privateKey = new PrivateKey(emails, AssemblePrivateKeyphrase(rsaN, rsaD));
-        SaveLocalKeys(publicKey, privateKey);
+        Program.SavePublicKey(publicKey);
+        Program.SavePrivateKey(privateKey);
     }
 
-    public void SaveLocalKeys(PublicKey publicKey, PrivateKey privateKey)
-    {
-        FileStream fspub = File.Create(PublicPath);
-        FileStream fspriv = File.Create(PrivatePath);
-        string pubJson = JsonConvert.SerializeObject(publicKey);
-        string privJson = JsonConvert.SerializeObject(privateKey);
-        
-        fspub.Write(new UTF8Encoding(true).GetBytes(pubJson));
-        fspriv.Write(new UTF8Encoding(true).GetBytes(privJson));
-        fspub.Close();
-        fspriv.Close();
-    }
 
     public int GetPSize()
     {

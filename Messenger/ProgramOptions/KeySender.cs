@@ -6,12 +6,10 @@ namespace Messenger.ProgramOptions;
 public class KeySender
 {
     private string email;
-    private string path;
 
     public KeySender(string email)
     {
         this.email = email;
-        this.path = "./public.key";
     }
 
     public void SendKey()
@@ -19,14 +17,25 @@ public class KeySender
         HttpClient client = new HttpClient();
         try
         {
-            string publicKeystring = File.ReadAllText(path);
+            string privateKeystring = File.ReadAllText(Program.PrivateKeyPath);
+            var privKey = JsonConvert.DeserializeObject<PrivateKey>(privateKeystring);
+
+            if (privKey != null)
+            {
+                privKey.Emails.Add(email);
+                Program.SavePrivateKey(privKey);
+            }
+            
+            string publicKeystring = File.ReadAllText(Program.PublicKeyPath);
             var pubKey = JsonConvert.DeserializeObject<PublicKey>(publicKeystring);
+            
             if (pubKey != null)
             {
-                pubKey.Email = Program.MyEmail;
+                pubKey.Email = email;
+
                 string keyWithEmail = JsonConvert.SerializeObject(pubKey);
 
-                HttpResponseMessage response = client.PutAsync("http://kayrun.cs.rit.edu:5000/Key/" + Program.ServerEmail,
+                HttpResponseMessage response = client.PutAsync("http://kayrun.cs.rit.edu:5000/Key/" + Program.MyEmail,
                     new StringContent(keyWithEmail, Encoding.UTF8, "application/json")).Result;
                 response.EnsureSuccessStatusCode();
             }
