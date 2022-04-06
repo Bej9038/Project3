@@ -7,6 +7,8 @@ namespace Messenger;
 
 public static class Program
 {
+    public const string ServerEmail = "jsb@cs.rit.edu";
+    public const string MyEmail = "bej9038@rit.edu";
     public static void Main(string[] args)
     {
         int len = args.Length;

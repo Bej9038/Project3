@@ -5,31 +5,30 @@ namespace Messenger;
 public class PublicKey
 {
     private string? email;
-    private string keyphrase;
-
-    public PublicKey(string email, string key)
-    {
-        this.email = email;
-        this.keyphrase = key;
-    }
+    private string key;
     public PublicKey(string key)
     {
-        this.email = email;
-        this.keyphrase = key;
+        this.key = key;
     }
-    public string Keyphrase => keyphrase;
+
+    public string Email
+    {
+        get => email;
+        set => email = value;
+    }
+    public string Key => key;
 }
 
 public class PrivateKey
 {
     private ArrayList emails;
-    private string keyphrase;
+    private string key;
     
     public PrivateKey(ArrayList emails, string key)
     {
         this.emails = emails;
-        this.keyphrase = key;
+        this.key = key;
     }
     
-    public string Keyphrase => keyphrase;
+    public string Key => key;
 }
