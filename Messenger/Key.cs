@@ -4,17 +4,18 @@ namespace Messenger;
 
 public class PublicKey
 {
-    private string? email; 
+    private string email; 
     private string key;
     public PublicKey(string key)
     {
         this.key = key;
+        this.email = "";
     }
-    
-    public string? Email
+
+    public string Email
     {
         get => email;
-        set => email = value;
+        set => email = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     public string Key
