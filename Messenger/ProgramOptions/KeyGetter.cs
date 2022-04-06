@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Messenger;
+﻿namespace Messenger.ProgramOptions;
 
 public class KeyGetter
 {

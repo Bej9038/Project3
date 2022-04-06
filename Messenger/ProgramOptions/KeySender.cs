@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Newtonsoft.Json;
 
-namespace Messenger;
+namespace Messenger.ProgramOptions;
 
 public class KeySender
 {

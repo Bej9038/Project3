@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using Newtonsoft.Json;
 
-namespace Messenger;
+namespace Messenger.ProgramOptions;
 
 public class MessageGetter
 {
