@@ -21,9 +21,7 @@ public class KeyGetter
             HttpResponseMessage response = client.GetAsync("http://kayrun.cs.rit.edu:5000/Key/" + email).Result;
             response.EnsureSuccessStatusCode();
             string responseBody = response.Content.ReadAsStringAsync().Result;
-            FileStream fs = File.Create(path);
-            fs.Write(new UTF8Encoding(true).GetBytes(responseBody));
-            fs.Close();
+            File.WriteAllText(path, responseBody);
         }
         catch (Exception e)
         {

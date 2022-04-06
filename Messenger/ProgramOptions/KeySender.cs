@@ -20,7 +20,7 @@ public class KeySender
         try
         {
             string publicKeystring = File.ReadAllText(path);
-            PublicKey? pubKey = JsonConvert.DeserializeObject<PublicKey>(publicKeystring);
+            var pubKey = JsonConvert.DeserializeObject<PublicKey>(publicKeystring);
             if (pubKey != null)
             {
                 pubKey.Email = Program.MyEmail;

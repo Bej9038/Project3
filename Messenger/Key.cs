@@ -10,13 +10,18 @@ public class PublicKey
     {
         this.key = key;
     }
-
-    public string Email
+    
+    public string? Email
     {
         get => email;
         set => email = value;
     }
-    public string Key => key;
+
+    public string Key
+    {
+        get => key;
+        set => key = value ?? throw new ArgumentNullException(nameof(value));
+    }
 }
 
 public class PrivateKey
@@ -30,5 +35,15 @@ public class PrivateKey
         this.key = key;
     }
     
-    public string Key => key;
+    public ArrayList Emails
+    {
+        get => emails;
+        set => emails = value ?? throw new ArgumentNullException(nameof(value));
+    }
+    
+    public string Key
+    {
+        get => key;
+        set => key = value ?? throw new ArgumentNullException(nameof(value));
+    }
 }
