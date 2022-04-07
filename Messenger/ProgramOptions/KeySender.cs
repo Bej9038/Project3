@@ -40,8 +40,7 @@ public class KeySender
             }
             else
             {
-                Console.WriteLine("Error: corresponding private key does not exist");
-                Environment.Exit(1);
+                SendError();
             }
 
             //load public key, edit, and send
@@ -58,15 +57,22 @@ public class KeySender
             }
             else
             {
-                Console.WriteLine("Error: no such key");
-                Environment.Exit(1);
+                SendError();
             }
         }
         catch (Exception e)
         {
-            Console.WriteLine("Error: unable to send key to server");
-            Environment.Exit(1);
+            SendError();
             Console.WriteLine(e);
         }
+    }
+
+    /// <summary>
+    /// KeySender error message and program exit
+    /// </summary>
+    private void SendError()
+    {
+        Console.WriteLine("Error: unable to send key to server");
+        Environment.Exit(1);
     }
 }
