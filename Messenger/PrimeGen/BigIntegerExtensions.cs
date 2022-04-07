@@ -1,13 +1,14 @@
-﻿using System.Numerics;
+﻿// Author - Benjamin Jordan, bej9038
+// File - BigIntegerExtensions.cs
+// Description - Contains helper functions for BigInteger objects related to prime generation.
+
+using System.Numerics;
 using System.Security.Cryptography;
 namespace Messenger.PrimeGen;
 
 /// <summary>
-/// Title: BigIntegerExtensions
-/// Description: BigInteger extension to figure out if a BigInteger is prime and a function
-/// to generate BigInts.
-/// Author: Ben Jordan
-/// 
+/// BigInteger extension to figure out if a BigInteger is prime and a function
+/// to generate BigInts
 /// </summary>
 public static class BigIntegerExtensions
 {

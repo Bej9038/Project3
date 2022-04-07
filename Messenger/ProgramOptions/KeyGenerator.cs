@@ -1,14 +1,24 @@
-﻿using System.Numerics;
-using Messenger.PrimeGen;
+﻿// Author - Benjamin Jordan, bej9038
+// File - KeyGenerator.cs
+// Description - Home to the KeyGenerator class
 
+using System.Numerics;
+using Messenger.PrimeGen;
 namespace Messenger.ProgramOptions;
 
+/// <summary>
+/// KeyGenerator class to instantiate the functionality needed for the keyGen argument.
+/// </summary>
 public class KeyGenerator
 {
     private int keysize;
     private const int ESize = 16;
     private const double KeysizePercent = .25;
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="keysize"> the size of the key to generate </param>
     public KeyGenerator(string keysize)
     {
         try
@@ -17,10 +27,15 @@ public class KeyGenerator
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine("Usage: keyGen <keysize>");
+            Console.WriteLine("Error, keysize must be of type int");
+            Environment.Exit(1);
         }
     }
 
+    /// <summary>
+    /// Generates the key pair and saves it to the current directory
+    /// </summary>
     public void KeyGen()
     {
         int pSize = GetPSize();
@@ -37,13 +52,15 @@ public class KeyGenerator
         BigInteger rsaD = ModInverse(rsaE, r);
 
         PublicKey publicKey = new PublicKey(AssemblePublicKeyphrase(rsaN, rsaE));
-        List<string> emails = new List<string>();
-        PrivateKey privateKey = new PrivateKey(emails, AssemblePrivateKeyphrase(rsaN, rsaD));
+        PrivateKey privateKey = new PrivateKey(AssemblePrivateKeyphrase(rsaN, rsaD));
         Program.SavePublicKey(publicKey);
         Program.SavePrivateKey(privateKey);
     }
-
-
+    
+    /// <summary>
+    /// Chooses the size of P for RSA
+    /// </summary>
+    /// <returns> the size of P </returns>
     public int GetPSize()
     {
         int pSize;
@@ -58,10 +75,15 @@ public class KeyGenerator
         {
             pSize = keysize / 2 - (int) (keysize * percentage);
         }
-
         return pSize;
     }
 
+    /// <summary>
+    /// Organizes the RSA values into a valid public keyphrase for the server
+    /// </summary>
+    /// <param name="rsaN"> the N value for RSA </param>
+    /// <param name="rsaE">the E valkue for RSA</param>
+    /// <returns> the keyphrase </returns>
     public string AssemblePublicKeyphrase(BigInteger rsaN, BigInteger rsaE)
     {
         byte[] e = BitConverter.GetBytes(rsaE.GetByteCount()).Reverse().ToArray();
@@ -78,6 +100,12 @@ public class KeyGenerator
         return Convert.ToBase64String(keyphrase);
     }
 
+    /// <summary>
+    /// Organizes the RSA values into a valid private keyphrase for the server
+    /// </summary>
+    /// <param name="rsaN"> the N value for RSA </param>
+    /// <param name="rsaD">the D value for RSA</param>
+    /// <returns> the keyphrase </returns>
     public string AssemblePrivateKeyphrase(BigInteger rsaN, BigInteger rsaD)
     {
         byte[] d = BitConverter.GetBytes(rsaD.GetByteCount()).Reverse().ToArray();
@@ -94,6 +122,12 @@ public class KeyGenerator
         return Convert.ToBase64String(keyphrase);
     }
 
+    /// <summary>
+    /// Modular inverse function of BigInteger a mod n
+    /// </summary>
+    /// <param name="a"> the BigInteger to the find inverse of </param>
+    /// <param name="n"> the mod value </param>
+    /// <returns> the mod inverse of a mod n </returns>
     public BigInteger ModInverse(BigInteger  a,  BigInteger  n) 
     { 
         BigInteger  i  =  n ,  v  =  0,  d  =  1; 

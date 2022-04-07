@@ -1,12 +1,12 @@
-﻿using System.Numerics;
+﻿// Author - Benjamin Jordan, bej9038
+// File - Generator.cs
+// Description - Contains the prime Generator class.
+
+using System.Numerics;
 namespace Messenger.PrimeGen;
 
-
 /// <summary>
-/// Title: Generator
-/// Description: generator object used to generate large prime integers
-/// Author: Ben Jordan
-/// 
+/// Generator object used to generate large prime integers
 /// </summary>
 public class Generator
 {
@@ -43,32 +43,6 @@ public class Generator
                 } 
             }
         });
-
-        // Boolean primeFound = false;
-        // while (!primeFound)
-        // {
-        //     BigInteger x = BigIntegerExtensions.GenerateBigIntInRange(0, -1, bitCount);
-        //     
-        //     if (x == 2 || x == 3)
-        //     {
-        //         prime = x;
-        //         primeFound = true;
-        //     }
-        //     else 
-        //     { 
-        //         if (BigInteger.Compare(x, 3) > 0 && 
-        //             BigInteger.Remainder(x, 2) != 0 &&
-        //             BigInteger.Remainder(x, 3) != 0 &&
-        //             BigInteger.Remainder(x, 5) != 0) 
-        //         { 
-        //             if (x.IsProbablyPrime())
-        //             {
-        //                 prime = x;
-        //                 primeFound = true;
-        //             }
-        //         } 
-        //     }
-        // }
 
         return prime;
     }

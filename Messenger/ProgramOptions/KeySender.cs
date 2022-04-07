@@ -1,17 +1,30 @@
-﻿using System.Text;
-using Newtonsoft.Json;
+﻿// Author - Benjamin Jordan, bej9038
+// File - KeySender.cs
+// Description - Home to the KeySender class
 
+using System.Text;
+using Newtonsoft.Json;
 namespace Messenger.ProgramOptions;
 
+/// <summary>
+/// KeySender class to instantiate the functionality needed for the sendKey argument.
+/// </summary>
 public class KeySender
 {
     private string email;
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="email"> the email of the user the key belongs to </param>
     public KeySender(string email)
     {
         this.email = email;
     }
 
+    /// <summary>
+    /// Sends a public key to the server and adds the email to the private key
+    /// </summary>
     public void SendKey()
     {
         HttpClient client = new HttpClient();
