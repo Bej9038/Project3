@@ -48,7 +48,7 @@ public class PublicKey
 public class PrivateKey
 {
     //left the warnings to match the writeup JSON format
-    private List<string> emails;
+    private List<string> email;
     private string key;
     
     /// <summary>
@@ -58,7 +58,7 @@ public class PrivateKey
     public PrivateKey(string key)
     {
         this.key = key;
-        this.emails = new List<string>();
+        this.email = new List<string>();
     }
     
     /// <summary>
@@ -66,8 +66,8 @@ public class PrivateKey
     /// </summary>
     public List<string> Emails
     {
-        get => emails;
-        set => emails = value ?? throw new ArgumentNullException(nameof(value));
+        get => email;
+        set => email = value;
     }
     
     /// <summary>
@@ -76,6 +76,6 @@ public class PrivateKey
     public string Key
     {
         get => key;
-        set => key = value ?? throw new ArgumentNullException(nameof(value));
+        set => key = value;
     }
 }

@@ -28,8 +28,9 @@ public class KeyGenerator
         catch (Exception e)
         {
             Console.WriteLine("Usage: keyGen <keysize>");
-            Console.WriteLine("Error, keysize must be of type int");
+            Console.WriteLine("Error: keysize must be of type int");
             Environment.Exit(1);
+            Console.WriteLine(e);
         }
     }
 

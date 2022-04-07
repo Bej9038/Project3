@@ -33,7 +33,14 @@ public class KeyGetter
             HttpResponseMessage response = client.GetAsync("http://kayrun.cs.rit.edu:5000/Key/" + email).Result;
             response.EnsureSuccessStatusCode();
             string responseBody = response.Content.ReadAsStringAsync().Result;
-            File.WriteAllText(path, responseBody);
+            if (responseBody.Length == 0)
+            {
+                Console.WriteLine("Error: no key exists for user " + email);
+            }
+            else
+            {
+                File.WriteAllText(path, responseBody);   
+            }
         }
         catch (Exception e)
         {

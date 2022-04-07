@@ -89,6 +89,10 @@ public static class Program
     {
         FileStream fspub = File.Create(PublicKeyPath);
         string pubJson = JsonConvert.SerializeObject(publicKey);
+        int emailIndex = pubJson.IndexOf("Email");
+        pubJson = pubJson.Remove(emailIndex, 1).Insert(emailIndex, "e");
+        int keyIndex = pubJson.IndexOf("Key");
+        pubJson = pubJson.Remove(keyIndex, 1).Insert(keyIndex, "k");
         fspub.Write(new UTF8Encoding(true).GetBytes(pubJson));
         fspub.Close();
     }
@@ -101,6 +105,10 @@ public static class Program
     {
         FileStream fspriv = File.Create(PrivateKeyPath);
         string privJson = JsonConvert.SerializeObject(privateKey);
+        int emailIndex = privJson.IndexOf("Email");
+        privJson = privJson.Remove(emailIndex, 1).Insert(emailIndex, "e");
+        int keyIndex = privJson.IndexOf("Key");
+        privJson = privJson.Remove(keyIndex, 1).Insert(keyIndex, "k");
         fspriv.Write(new UTF8Encoding(true).GetBytes(privJson));
         fspriv.Close();
     }
