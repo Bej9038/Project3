@@ -35,11 +35,12 @@ public class KeyGetter
             string responseBody = response.Content.ReadAsStringAsync().Result;
             if (responseBody.Length == 0)
             {
-                Console.WriteLine("Error: no key exists for user " + email);
+                Console.WriteLine("Error: key does not exist for user " + email);
             }
             else
             {
-                File.WriteAllText(path, responseBody);   
+                File.WriteAllText(path, responseBody);
+                Console.WriteLine("Key saved");
             }
         }
         catch (Exception e)

@@ -92,7 +92,7 @@ public class MessageSender
     {
         List<BigInteger> list = new List<BigInteger>();
         
-        byte[] decodedKey = Convert.FromBase64String(pk.Key);
+        byte[] decodedKey = Convert.FromBase64String(pk.key);
         
         int e = BitConverter.ToInt32(decodedKey.Take(4).Reverse().ToArray());
         BigInteger rsaE = new BigInteger(decodedKey.Skip(4).Take(e).ToArray());

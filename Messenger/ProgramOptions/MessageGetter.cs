@@ -85,7 +85,7 @@ public class MessageGetter
     {
         List<BigInteger> list = new List<BigInteger>();
         
-        byte[] decodedKey = Convert.FromBase64String(pk.Key);
+        byte[] decodedKey = Convert.FromBase64String(pk.key);
         
         int d = BitConverter.ToInt32(decodedKey.Take(4).Reverse().ToArray());
         BigInteger rsaD = new BigInteger(decodedKey.Skip(4).Take(d).ToArray());

@@ -47,15 +47,25 @@ public class KeyGenerator
         BigInteger q = generator.RunGenerator(qSize);
         
         BigInteger rsaN = BigInteger.Multiply(p, q);
-        BigInteger r = BigInteger.Multiply(BigInteger.Subtract(p, 1), 
+        BigInteger rsaR = BigInteger.Multiply(BigInteger.Subtract(p, 1), 
                                             BigInteger.Subtract(q, 1));
         BigInteger rsaE = generator.RunGenerator(ESize);
-        BigInteger rsaD = ModInverse(rsaE, r);
+        BigInteger rsaD = ModInverse(rsaE, rsaR);
 
         PublicKey publicKey = new PublicKey(AssemblePublicKeyphrase(rsaN, rsaE));
         PrivateKey privateKey = new PrivateKey(AssemblePrivateKeyphrase(rsaN, rsaD));
-        Program.SavePublicKey(publicKey);
-        Program.SavePrivateKey(privateKey);
+        try
+        {
+            Program.SavePublicKey(publicKey);
+            Program.SavePrivateKey(privateKey);
+            Console.WriteLine("Keys generated");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error: failed to save keys to current directory");
+            Environment.Exit(1);
+            Console.WriteLine(e);
+        }
     }
     
     /// <summary>

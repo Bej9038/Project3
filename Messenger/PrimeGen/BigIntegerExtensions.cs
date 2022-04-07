@@ -72,13 +72,8 @@ public static class BigIntegerExtensions
         
         if (upperBounds == -1) // no upper bounds
         {
-            // while (x.GetBitLength() != bitCount)
-            // {
-                bytes = RandomNumberGenerator.GetBytes(byteCount);
-                // byte temp = 255;
-                // bytes[bytes.Length - 1] = temp;
-                x = new BigInteger(bytes);   
-            // }
+            bytes = RandomNumberGenerator.GetBytes(byteCount);
+            x = new BigInteger(bytes);
         }
         else
         {

@@ -2,6 +2,9 @@
 // File - Key.cs
 // Description - Contains the PublicKey and PrivateKey classes
 
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
+
 namespace Messenger;
 
 /// <summary>
@@ -10,8 +13,8 @@ namespace Messenger;
 public class PublicKey
 {
     //left the warnings to match the writeup JSON format
-    private string email; 
-    private string key;
+    private string _email; 
+    private string _key;
     
     /// <summary>
     /// Constructor
@@ -19,26 +22,26 @@ public class PublicKey
     /// <param name="key"> the keyphrase </param>
     public PublicKey(string key)
     {
-        this.key = key;
-        this.email = "";
+        this._key = key;
+        this._email = "";
     }
 
     /// <summary>
     /// Returns or sets the email
     /// </summary>
-    public string Email
+    public string email
     {
-        get => email;
-        set => email = value;
+        get => _email;
+        set => _email = value;
     }
 
     /// <summary>
     /// Returns or sets the keyphrase
     /// </summary>
-    public string Key
+    public string key
     {
-        get => key;
-        set => key = value;
+        get => _key;
+        set => _key = value;
     }
 }
 
@@ -48,8 +51,8 @@ public class PublicKey
 public class PrivateKey
 {
     //left the warnings to match the writeup JSON format
-    private List<string> email;
-    private string key;
+    private List<string> _email;
+    private string _key;
     
     /// <summary>
     /// Constructor
@@ -57,25 +60,25 @@ public class PrivateKey
     /// <param name="key"> the keyphrase </param>
     public PrivateKey(string key)
     {
-        this.key = key;
-        this.email = new List<string>();
+        this._key = key;
+        this._email = new List<string>();
     }
     
     /// <summary>
     /// Returns or sets the email
     /// </summary>
-    public List<string> Emails
+    public List<string> email
     {
-        get => email;
-        set => email = value;
+        get => _email;
+        set => _email = value;
     }
     
     /// <summary>
     /// Returns or sets the keyphrase
     /// </summary>
-    public string Key
+    public string key
     {
-        get => key;
-        set => key = value;
+        get => _key;
+        set => _key = value;
     }
 }

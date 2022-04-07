@@ -24,60 +24,68 @@ public static class Program
     public static void Main(string[] args)
     {
         int numArgs = args.Length;
-        String option = args[0];
-        String arg1 = args[1];
-        
-        switch (option)
+        if (args.Length == 2 || args.Length == 3)
         {
-            case "keyGen":
-                if (numArgs != 2)
-                {
-                    Console.WriteLine("Usage: keyGen <keysize>");
-                    Environment.Exit(1);
-                }
-                KeyGenerator kgen = new KeyGenerator(arg1);
-                kgen.KeyGen();
-                break;
-            case "sendKey":
-                if (numArgs != 2)
-                {
-                    Console.WriteLine("Usage: sendKey <email>");
-                    Environment.Exit(1);
-                }
-                KeySender ksend = new KeySender(arg1);
-                ksend.SendKey();
-                break;
-            case "getKey":
-                if (numArgs != 2)
-                {
-                    Console.WriteLine("Usage: getKey <email>");
-                    Environment.Exit(1);
-                }
-                KeyGetter kgtr = new KeyGetter(arg1);
-                kgtr.GetKey();
-                break;
-            case "sendMsg":
-                if (numArgs != 3)
-                {
-                    Console.WriteLine("Usage: sendMsg <email> <plaintext>");
-                    Environment.Exit(1);
-                }
-                String arg2 = args[2];
-                MessageSender msend = new MessageSender(arg1, arg2);
-                msend.SendMsg();
-                break;
-            case "getMsg":
-                if (numArgs != 2)
-                {
-                    Console.WriteLine("Usage: getMsg <email>");
-                    Environment.Exit(1);
-                }
-                MessageGetter mget = new MessageGetter(arg1);
-                mget.GetMsg();
-                break;
-            default:
-                Console.WriteLine("Usage: <option> <option arguments>");
-                break;
+                String option = args[0];
+                String arg1 = args[1];
+                switch (option)
+                 {
+                     case "keyGen":
+                         if (numArgs != 2)
+                         {
+                             Console.WriteLine("Usage: keyGen <keysize>");
+                             Environment.Exit(1);
+                         }
+                         KeyGenerator kgen = new KeyGenerator(arg1);
+                         kgen.KeyGen();
+                         break;
+                     case "sendKey":
+                         if (numArgs != 2)
+                         {
+                             Console.WriteLine("Usage: sendKey <email>");
+                             Environment.Exit(1);
+                         }
+                         KeySender ksend = new KeySender(arg1);
+                         ksend.SendKey();
+                         break;
+                     case "getKey":
+                         if (numArgs != 2)
+                         {
+                             Console.WriteLine("Usage: getKey <email>");
+                             Environment.Exit(1);
+                         }
+                         KeyGetter kgtr = new KeyGetter(arg1);
+                         kgtr.GetKey();
+                         break;
+                     case "sendMsg":
+                         if (numArgs != 3)
+                         {
+                             Console.WriteLine("Usage: sendMsg <email> <plaintext>");
+                             Environment.Exit(1);
+                         }
+                         String arg2 = args[2];
+                         MessageSender msend = new MessageSender(arg1, arg2);
+                         msend.SendMsg();
+                         break;
+                     case "getMsg":
+                         if (numArgs != 2)
+                         {
+                             Console.WriteLine("Usage: getMsg <email>");
+                             Environment.Exit(1);
+                         }
+                         MessageGetter mget = new MessageGetter(arg1);
+                         mget.GetMsg();
+                         break;
+                     default:
+                         Console.WriteLine("Usage: <option> <option arguments>");
+                         Environment.Exit(1);
+                         break;
+                 }
+        }
+        else
+        {
+            Console.WriteLine("Usage: <option> <option arguments>");
+            Environment.Exit(1);
         }
     }
     
@@ -89,10 +97,6 @@ public static class Program
     {
         FileStream fspub = File.Create(PublicKeyPath);
         string pubJson = JsonConvert.SerializeObject(publicKey);
-        int emailIndex = pubJson.IndexOf("Email");
-        pubJson = pubJson.Remove(emailIndex, 1).Insert(emailIndex, "e");
-        int keyIndex = pubJson.IndexOf("Key");
-        pubJson = pubJson.Remove(keyIndex, 1).Insert(keyIndex, "k");
         fspub.Write(new UTF8Encoding(true).GetBytes(pubJson));
         fspub.Close();
     }
@@ -105,10 +109,6 @@ public static class Program
     {
         FileStream fspriv = File.Create(PrivateKeyPath);
         string privJson = JsonConvert.SerializeObject(privateKey);
-        int emailIndex = privJson.IndexOf("Email");
-        privJson = privJson.Remove(emailIndex, 1).Insert(emailIndex, "e");
-        int keyIndex = privJson.IndexOf("Key");
-        privJson = privJson.Remove(keyIndex, 1).Insert(keyIndex, "k");
         fspriv.Write(new UTF8Encoding(true).GetBytes(privJson));
         fspriv.Close();
     }
