@@ -3,6 +3,7 @@
 // Description - Home to the MessageGetter class
 
 using System.Numerics;
+using System.Text;
 using Newtonsoft.Json;
 namespace Messenger.ProgramOptions;
 
@@ -47,11 +48,9 @@ public class MessageGetter
                 if (message != null)
                 {
                     byte[] content = Convert.FromBase64String(message.content);
-                    BigInteger cipertextInt = new BigInteger(content);
-                    Console.WriteLine(keyValues[0].ToString());
-                    Console.WriteLine(keyValues[1].ToString());
-                    BigInteger plaintextInt = DecryptMessage(cipertextInt, keyValues[0], keyValues[1]);
-                    Console.WriteLine(Convert.ToBase64String(plaintextInt.ToByteArray()));   
+                    BigInteger ciphertextInt = new BigInteger(content);
+                    BigInteger plaintextInt = DecryptMessage(ciphertextInt, keyValues[0], keyValues[1]);
+                    Console.WriteLine(Encoding.UTF8.GetString(plaintextInt.ToByteArray()));   
                 }
                 else
                 {
@@ -81,7 +80,7 @@ public class MessageGetter
     /// </summary>
     /// <param name="path"> The path of the private key</param>
     /// <returns> The PrivateKey object </returns>
-    private static PrivateKey LoadPrivateKey(string path)
+    public static PrivateKey LoadPrivateKey(string path)
     {
         string privateKeystring = File.ReadAllText(path);
         var privKey = JsonConvert.DeserializeObject<PrivateKey>(privateKeystring);
@@ -99,7 +98,7 @@ public class MessageGetter
     /// <param name="rsaD"> the D value from the private keyphrase </param>
     /// <param name="rsaN"> the N value from the private keyphrase </param>
     /// <returns> The decrypted message as a BigInteger </returns>
-    private BigInteger DecryptMessage(BigInteger ciphertextInt, BigInteger rsaD, BigInteger rsaN)
+    public static BigInteger DecryptMessage(BigInteger ciphertextInt, BigInteger rsaD, BigInteger rsaN)
     {
         return BigInteger.ModPow(ciphertextInt, rsaD, rsaN);
     }
@@ -109,7 +108,7 @@ public class MessageGetter
     /// </summary>
     /// <param name="pk"> the private key </param>
     /// <returns> A lsit of the rsa values </returns>
-    private List<BigInteger> ExtractKeyValues(PrivateKey pk)
+    public static List<BigInteger> ExtractKeyValues(PrivateKey pk)
     {
         List<BigInteger> list = new List<BigInteger>();
         

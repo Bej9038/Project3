@@ -35,7 +35,6 @@ public class MessageSender
     {
         byte[] ptBytes = Encoding.UTF8.GetBytes(this.plaintext);
         BigInteger plaintextInt = new BigInteger(ptBytes);
-        
         try
         {
             PublicKey pk = LoadPublicKey(path);
@@ -45,10 +44,8 @@ public class MessageSender
                 Environment.Exit(1);
             }
             List<BigInteger> keyValues = ExtractKeyValues(pk);
-            
             BigInteger ciphertextInt = EncryptMessage(plaintextInt, keyValues[0], keyValues[1]);
             byte[] ctBytes = ciphertextInt.ToByteArray();
-
             Message m = new Message(email, Convert.ToBase64String(ctBytes));
             string message = JsonConvert.SerializeObject(m);
 
@@ -84,7 +81,7 @@ public class MessageSender
     /// <param name="rsaE"> the RSA E value </param>
     /// <param name="rsaN"> the RSA N value</param>
     /// <returns></returns>
-    private BigInteger EncryptMessage(BigInteger plaintextInt, BigInteger rsaE, BigInteger rsaN)
+    public static BigInteger EncryptMessage(BigInteger plaintextInt, BigInteger rsaE, BigInteger rsaN)
     {
         return BigInteger.ModPow(plaintextInt, rsaE, rsaN);
     }
@@ -94,7 +91,7 @@ public class MessageSender
     /// </summary>
     /// <param name="path"> the key file path </param>
     /// <returns> the PublicKey object</returns>
-    private static PublicKey LoadPublicKey(string path)
+    public static PublicKey LoadPublicKey(string path)
     {
         string publicKeystring = File.ReadAllText(path);
         JsonSerializerSettings settings = new JsonSerializerSettings
@@ -114,7 +111,7 @@ public class MessageSender
     /// </summary>
     /// <param name="pk"> the public key </param>
     /// <returns> a list of the RSA values needed for enncryption </returns>
-    private static List<BigInteger> ExtractKeyValues(PublicKey pk)
+    public static List<BigInteger> ExtractKeyValues(PublicKey pk)
     {
         List<BigInteger> list = new List<BigInteger>();
         
