@@ -36,24 +36,42 @@ public class MessageSender
         byte[] ptBytes = Encoding.UTF8.GetBytes(this.plaintext);
         BigInteger plaintextInt = new BigInteger(ptBytes);
         
-        PublicKey pk = LoadPublicKey(path);
-        List<BigInteger> keyValues = ExtractKeyValues(pk);
-        
-        BigInteger ciphertextInt = EncryptMessage(plaintextInt, keyValues[0], keyValues[1]);
-        byte[] ctBytes = ciphertextInt.ToByteArray();
-
-        Message m = new Message(email, Convert.ToBase64String(ctBytes));
-        string message = JsonConvert.SerializeObject(m);
-
-        HttpClient client = new HttpClient();
         try
         {
-            HttpResponseMessage response = client.PutAsync("http://kayrun.cs.rit.edu:5000/Message/" + email,
+            PublicKey pk = LoadPublicKey(path);
+            if (pk.key.Equals("nullkey"))
+            {
+                Console.WriteLine("Error: key for " + email + " is not valid");
+                Environment.Exit(1);
+            }
+            List<BigInteger> keyValues = ExtractKeyValues(pk);
+            
+            BigInteger ciphertextInt = EncryptMessage(plaintextInt, keyValues[0], keyValues[1]);
+            byte[] ctBytes = ciphertextInt.ToByteArray();
+
+            Message m = new Message(email, Convert.ToBase64String(ctBytes));
+            string message = JsonConvert.SerializeObject(m);
+
+            HttpClient client = new HttpClient();
+            try
+            {
+                HttpResponseMessage response = client.PutAsync("http://kayrun.cs.rit.edu:5000/Message/" + email,
                     new StringContent(message, Encoding.UTF8, "application/json")).Result;
-            response.EnsureSuccessStatusCode();
+                response.EnsureSuccessStatusCode();
+                Console.WriteLine("Message written");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: Unable to send message");
+                Environment.Exit(1);
+                Console.WriteLine(e);
+            }
         }
         catch (Exception e)
         {
+            Console.WriteLine("Error: Key does not exist for " + email);
+            Console.WriteLine("Download key using: getKey <email>");
+            Environment.Exit(1);
             Console.WriteLine(e);
         }
 
@@ -76,11 +94,19 @@ public class MessageSender
     /// </summary>
     /// <param name="path"> the key file path </param>
     /// <returns> the PublicKey object</returns>
-    public static PublicKey LoadPublicKey(string path)
+    private static PublicKey LoadPublicKey(string path)
     {
         string publicKeystring = File.ReadAllText(path);
-        var pubKey = JsonConvert.DeserializeObject<PublicKey>(publicKeystring);
-        return pubKey;
+        JsonSerializerSettings settings = new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Ignore
+        };
+        var pubKey = JsonConvert.DeserializeObject<PublicKey>(publicKeystring, settings);
+        if (pubKey != null)
+        {
+            return pubKey;   
+        }
+        return new PublicKey("nullkey");
     }
     
     /// <summary>

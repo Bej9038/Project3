@@ -10,8 +10,8 @@ namespace Messenger;
 public class Message
 {
     //left the warnings to match the writeup JSON format
-    private string email; 
-    private string content; 
+    private string _email; 
+    private string _content; 
 
     /// <summary>
     /// Constructor
@@ -20,25 +20,25 @@ public class Message
     /// <param name="content"> the message content </param>
     public Message(string email, string content)
     {
-        this.email = email;
-        this.content = content;
+        this._email = email;
+        this._content = content;
     }
 
     /// <summary>
     /// Returns or sets the email.
     /// </summary>
-    public string Email
+    public string email
     {
-        get => email;
-        set => email = value;
+        get => _email;
+        set => _email = value;
     }
     
     /// <summary>
     /// Returns or sets the content
     /// </summary>
-    public string Content
+    public string content
     {
-        get => content;
-        set => content = value;
+        get => _content;
+        set => _content = value;
     }
 }

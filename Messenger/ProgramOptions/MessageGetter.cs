@@ -28,28 +28,50 @@ public class MessageGetter
     public void GetMsg()
     {
         HttpClient client = new HttpClient();
-        PrivateKey pk = LoadPrivateKey(Program.PrivateKeyPath);
-        List<BigInteger> keyValues = ExtractKeyValues(pk);
-        
         try
         {
-            HttpResponseMessage response = client.GetAsync("http://kayrun.cs.rit.edu:5000/Message/" + email).Result;
-            response.EnsureSuccessStatusCode();
-            string responseBody = response.Content.ReadAsStringAsync().Result;
-            var message = JsonConvert.DeserializeObject<Message>(responseBody);
-
-            if (message != null)
+            PrivateKey pk = LoadPrivateKey(Program.PrivateKeyPath);
+            if (pk.key.Equals("nullkey"))
             {
-                byte[] content = Convert.FromBase64String(message.Content);
-                BigInteger cipertextInt = new BigInteger(content);
-                BigInteger plaintextInt = DecryptMessage(cipertextInt, keyValues[0], keyValues[1]);
-                Console.WriteLine(Convert.ToBase64String(plaintextInt.ToByteArray()));   
+                Console.WriteLine("Error: key for " + email + " is not valid");
+                Environment.Exit(1);
+            }
+            List<BigInteger> keyValues = ExtractKeyValues(pk);
+        
+            try
+            {
+                HttpResponseMessage response = client.GetAsync("http://kayrun.cs.rit.edu:5000/Message/" + email).Result;
+                response.EnsureSuccessStatusCode();
+                string responseBody = response.Content.ReadAsStringAsync().Result;
+                var message = JsonConvert.DeserializeObject<Message>(responseBody);
+                if (message != null)
+                {
+                    byte[] content = Convert.FromBase64String(message.content);
+                    BigInteger cipertextInt = new BigInteger(content);
+                    BigInteger plaintextInt = DecryptMessage(cipertextInt, keyValues[0], keyValues[1]);
+                    Console.WriteLine(Convert.ToBase64String(plaintextInt.ToByteArray()));   
+                }
+                else
+                {
+                    Console.WriteLine("Error: invalid message content");
+                    Environment.Exit(1);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: Unable to get message");
+                Environment.Exit(1);
+                Console.WriteLine(e);
             }
         }
         catch (Exception e)
         {
+            Console.WriteLine("Error: Key does not exist for " + email);
+            Console.WriteLine("Download key using: getKey <email>");
+            Environment.Exit(1);
             Console.WriteLine(e);
         }
+        
     }
     
     /// <summary>
@@ -57,11 +79,15 @@ public class MessageGetter
     /// </summary>
     /// <param name="path"> The path of the private key</param>
     /// <returns> The PrivateKey object </returns>
-    public static PrivateKey LoadPrivateKey(string path)
+    private static PrivateKey LoadPrivateKey(string path)
     {
         string privateKeystring = File.ReadAllText(path);
         var privKey = JsonConvert.DeserializeObject<PrivateKey>(privateKeystring);
-        return privKey;
+        if (privKey != null)
+        {
+            return privKey;   
+        }
+        return new PrivateKey("nullkey");
     }
     
     /// <summary>
