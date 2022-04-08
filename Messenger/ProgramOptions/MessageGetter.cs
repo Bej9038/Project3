@@ -48,6 +48,8 @@ public class MessageGetter
                 {
                     byte[] content = Convert.FromBase64String(message.content);
                     BigInteger cipertextInt = new BigInteger(content);
+                    Console.WriteLine(keyValues[0].ToString());
+                    Console.WriteLine(keyValues[1].ToString());
                     BigInteger plaintextInt = DecryptMessage(cipertextInt, keyValues[0], keyValues[1]);
                     Console.WriteLine(Convert.ToBase64String(plaintextInt.ToByteArray()));   
                 }

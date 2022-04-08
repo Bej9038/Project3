@@ -52,6 +52,12 @@ public class KeyGenerator
         BigInteger rsaE = generator.RunGenerator(ESize);
         BigInteger rsaD = ModInverse(rsaE, rsaR);
 
+        // Console.WriteLine(rsaN);
+        // Console.WriteLine("\n");
+        // Console.WriteLine(rsaE);
+        // Console.WriteLine("\n");
+        // Console.WriteLine(rsaD);
+
         PublicKey publicKey = new PublicKey(AssemblePublicKeyphrase(rsaN, rsaE));
         PrivateKey privateKey = new PrivateKey(AssemblePrivateKeyphrase(rsaN, rsaD));
         try
